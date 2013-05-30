@@ -8,7 +8,7 @@
 // sonatypePassword=<CORRESPONDING PASSWORD>
 
 // 1) Setup your build.gradle for your android project and add this one line of code which imports this gist:
-// apply from: 'https://raw.github.com/koush/mvn-repo/gh-pages/maven.gradle'
+// apply from: 'https://raw.github.com/koush/mvn-repo/master/maven.gradle'
 
 // 2) gradle clean && gradle build && gradle uploadArchives
 

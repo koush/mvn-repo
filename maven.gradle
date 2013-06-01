@@ -32,7 +32,10 @@ uploadArchives {
                     repo = match[2]
             }
             
-            repoInfo = new groovy.json.JsonSlurper().parseText(new URL('https://api.github.com/repos/' + user + '/' + repo + '?access_token=' + System.getenv().GITHUB_TOKEN).getText())
+            githubUrl = 'https://api.github.com/repos/' + user + '/' + repo;
+            if (System.getenv().GITHUB_TOKEN)
+              githubUrl += '?access_token=' + System.getenv().GITHUB_TOKEN
+            repoInfo = new groovy.json.JsonSlurper().parseText(new URL(githubUrl).getText())
             
             android_manifest = new XmlParser(false, false).parseText(new File('AndroidManifest.xml').getText())
             version = android_manifest.'@android:versionName'

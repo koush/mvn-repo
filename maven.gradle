@@ -21,26 +21,35 @@ signing {
     sign configurations.archives
 }
 
+user = null
+repo = null
+'git remote -v'.execute(null, new File(file('.').absolutePath)).getText().find('git@github.com:(.*?)/(.*?).git') {
+    match ->
+        user = match[1]
+        repo = match[2]
+}
+
+githubUrl = 'https://api.github.com/repos/' + user + '/' + repo;
+if (System.getenv().GITHUB_TOKEN)
+  githubUrl += '?access_token=' + System.getenv().GITHUB_TOKEN
+repoInfo = new groovy.json.JsonSlurper().parseText(new URL(githubUrl).getText())
+
+android_manifest = new XmlParser(false, false).parseText(new File('AndroidManifest.xml').getText())
+version = android_manifest.'@android:versionName'
+package_name = android_manifest.'@package'
+
+
+allprojects {
+    afterEvaluate { project ->
+      artifacts {
+        archives packageReleaseJar
+      }
+    }
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            user = null
-            repo = null
-            'git remote -v'.execute(null, new File(file('.').absolutePath)).getText().find('git@github.com:(.*?)/(.*?).git') {
-                match ->
-                    user = match[1]
-                    repo = match[2]
-            }
-            
-            githubUrl = 'https://api.github.com/repos/' + user + '/' + repo;
-            if (System.getenv().GITHUB_TOKEN)
-              githubUrl += '?access_token=' + System.getenv().GITHUB_TOKEN
-            repoInfo = new groovy.json.JsonSlurper().parseText(new URL(githubUrl).getText())
-            
-            android_manifest = new XmlParser(false, false).parseText(new File('AndroidManifest.xml').getText())
-            println android_manifest
-            version = android_manifest.'@android:versionName'
-            package_name = android_manifest.'@package'
 
             beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
             pom.groupId = package_name

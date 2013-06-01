@@ -20,12 +20,6 @@ apply plugin: 'signing'
 
 
 afterEvaluate { project ->
-  artifacts {
-    archives packageReleaseJar
-    // archives androidSourcesJar
-    // archives androidJavadocsJar
-  }
-  
   user = null
   repo = null
   'git remote -v'.execute(null, project.projectDir).getText().find('git@github.com:(.*?)/(.*?).git') {
@@ -44,7 +38,6 @@ afterEvaluate { project ->
   versionName = android_manifest.'@android:versionName'
   package_name = android_manifest.'@package'
   artifact_id = repo.toLowerCase()
-  println 'version: ' + project.name + ' ' + project.version + ' ' + versionName
   project.version = versionName
 
   uploadArchives {
@@ -111,5 +104,10 @@ afterEvaluate { project ->
     from android.sourceSets.main.allSource 
   } 
 
+  artifacts {
+    archives packageReleaseJar
+    archives androidSourcesJar
+    archives androidJavadocsJar
+  }
 }
 

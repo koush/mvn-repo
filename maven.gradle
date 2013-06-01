@@ -14,6 +14,14 @@
 
 // 3) That's it!
 
+afterEvaluate { project ->
+  artifacts {
+    archives packageReleaseJar
+    archives androidSourcesJar
+    archives androidJavadocsJar
+  }
+}
+
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -37,15 +45,24 @@ repoInfo = new groovy.json.JsonSlurper().parseText(new URL(githubUrl).getText())
 android_manifest = new XmlParser(false, false).parseText(new File('AndroidManifest.xml').getText())
 version = android_manifest.'@android:versionName'
 package_name = android_manifest.'@package'
+artifact_id = repo.toLowerCase()
 
-
-allprojects {
-    afterEvaluate { project ->
-      artifacts {
-        archives packageReleaseJar
-      }
-    }
+task androidJavadocs(type: Javadoc) {
+   source = android.sourceSets.main.allJava
 }
+
+task androidJavadocsJar(type: Jar) {
+  classifier = 'javadoc'
+  basename = artifact_id
+  from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+  classifier = 'sources'
+  basename = artifact_id
+  from android.sourceSets.main.allSource 
+} 
+
 
 uploadArchives {
     repositories {
@@ -53,7 +70,7 @@ uploadArchives {
 
             beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
             pom.groupId = package_name
-            pom.artifactId = repo.toLowerCase()
+            pom.artifactId = artifact_id
  
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
               authentication(userName: sonatypeUsername, password: sonatypePassword)

@@ -38,6 +38,7 @@ uploadArchives {
             repoInfo = new groovy.json.JsonSlurper().parseText(new URL(githubUrl).getText())
             
             android_manifest = new XmlParser(false, false).parseText(new File('AndroidManifest.xml').getText())
+            println android_manifest
             version = android_manifest.'@android:versionName'
             package_name = android_manifest.'@package'
 

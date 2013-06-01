@@ -14,6 +14,14 @@
 
 // 3) That's it!
 
+afterEvaluate { project ->
+  artifacts {
+    archives packageReleaseJar
+    archives androidSourcesJar
+    archives androidJavadocsJar
+  }
+}
+
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -39,7 +47,6 @@ version = android_manifest.'@android:versionName'
 package_name = android_manifest.'@package'
 artifact_id = repo.toLowerCase()
 
-/*
 task androidJavadocs(type: Javadoc) {
    source = android.sourceSets.main.allJava
 }
@@ -56,14 +63,6 @@ task androidSourcesJar(type: Jar) {
   from android.sourceSets.main.allSource 
 } 
 
-afterEvaluate { project ->
-  artifacts {
-    archives packageReleaseJar
-    archives androidSourcesJar
-    archives androidJavadocsJar
-  }
-}
-*/
 
 uploadArchives {
     repositories {
@@ -79,7 +78,7 @@ uploadArchives {
  
             pom.project {
                name repo
-               packaging 'aar'
+               packaging 'jar'
                description repoInfo.description
                url repoInfo.html_url
  

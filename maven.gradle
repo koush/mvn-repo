@@ -24,7 +24,6 @@ afterEvaluate { project ->
   repo = null
   'git remote -v'.execute(null, project.projectDir).getText().find('git@github.com:(.*?)/(.*?).git') {
       match ->
-          println match
           user = match[1]
           repo = match[2]
   }

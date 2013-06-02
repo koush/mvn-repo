@@ -38,6 +38,7 @@ afterEvaluate { project ->
   package_name = android_manifest.'@package'
   artifact_id = repo.toLowerCase()
   project.version = versionName
+  project.group = package_name
 
   uploadArchives {
       repositories {

@@ -22,7 +22,7 @@ apply plugin: 'signing'
 afterEvaluate { project ->
   user = null
   repo = null
-  'git remote -v'.execute(null, project.projectDir).getText().find('.*?git@github.com:(.*?)/(.*?).git') {
+  'git remote -v'.execute(null, project.projectDir).getText().find('.*?git@github.com/(.*?)/(.*?) .*?') {
       match ->
           user = match[1]
           repo = match[2]

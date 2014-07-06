@@ -89,7 +89,7 @@ afterEvaluate { project ->
   }
 
   task androidJavadocs(type: Javadoc) {
-     source = android.sourceSets.main.allJava
+     source = android.sourceSets.main.java.srcDirs
   }
 
   task androidJavadocsJar(type: Jar) {

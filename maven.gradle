@@ -105,6 +105,7 @@ afterEvaluate { project ->
   } 
 
   artifacts {
+    archives packageReleaseJar
     archives androidSourcesJar
     archives androidJavadocsJar
   }

@@ -55,7 +55,7 @@ afterEvaluate { project ->
 
               pom.project {
                  name repo
-                 packaging 'jar'
+                 packaging 'aar'
                  description repoInfo.description
                  url repoInfo.html_url
 

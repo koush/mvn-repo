@@ -104,8 +104,8 @@ afterEvaluate { project ->
     from android.sourceSets.main.java.srcDirs 
   } 
 
-//
   artifacts {
+    archives packageReleaseJar
     archives androidSourcesJar
     archives androidJavadocsJar
   }

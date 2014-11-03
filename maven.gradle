@@ -94,13 +94,13 @@ afterEvaluate { project ->
 
   task androidJavadocsJar(type: Jar) {
     classifier = 'javadoc'
-    basename = artifact_id
+    baseName = artifact_id
     from androidJavadocs.destinationDir
   }
 
   task androidSourcesJar(type: Jar) {
     classifier = 'sources'
-    basename = artifact_id
+    baseName = artifact_id
     from android.sourceSets.main.java.srcDirs 
   } 
 

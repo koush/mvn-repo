@@ -36,7 +36,7 @@ afterEvaluate { project ->
   def android_manifest = new XmlParser(false, false).parseText(new File(project.projectDir, 'AndroidManifest.xml').getText())
   def versionName = android_manifest.'@android:versionName'
   def package_name = android_manifest.'@package'
-  artifact_id = repo.toLowerCase()
+  def artifact_id = repo.toLowerCase()
   project.version = versionName
   project.group = package_name
 

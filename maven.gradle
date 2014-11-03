@@ -44,7 +44,7 @@ afterEvaluate { project ->
       repositories {
           mavenDeployer {
 
-              beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
+              beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
               pom.groupId = package_name
               pom.artifactId = artifact_id
               pom.version = versionName

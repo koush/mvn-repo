@@ -33,7 +33,13 @@ afterEvaluate { project ->
     githubUrl += '?access_token=' + System.getenv().GITHUB_TOKEN
   def repoInfo = new groovy.json.JsonSlurper().parseText(new URL(githubUrl).getText())
 
-  def android_manifest = new XmlParser(false, false).parseText(new File(project.projectDir, 'AndroidManifest.xml').getText())
+  def android_manifest
+  try {
+      android_manifest = new XmlParser(false, false).parseText(new File(project.projectDir, 'AndroidManifest.xml').getText())
+  }
+  catch (e) {
+      android_manifest = new XmlParser(false, false).parseText(new File(project.projectDir, 'src/main/AndroidManifest.xml').getText())
+  }  
   def versionName = android_manifest.'@android:versionName'
   def package_name = android_manifest.'@package'
   def artifact_id = project.projectDir.getName().toLowerCase()
